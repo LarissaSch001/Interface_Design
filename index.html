@@ -17,8 +17,9 @@
       .hero {
         width: 100%;
         height: 100vh;
-        position: relative;
-        z-index: 0;
+        position: sticky;
+        top: 0;
+        overflow: hidden;
       }
       #globeViz {
         width: 100%;
@@ -171,7 +172,7 @@
     </script>
   </head>
   <body>
-    <div class="hero" style="position: relative; overflow: hidden;">
+    <div class="hero">
       <div id="globeViz" style="position: relative; z-index: 0;"></div>
       <div id="time"></div>
     </div>
@@ -201,7 +202,7 @@
             <img src="Bilder/1.png" alt="Bild 1" style="width: 300px; height: 240px; border-radius: 8px; object-fit: cover;" />
             <img src="Bilder/2.png" alt="Bild 2" style="width: 300px; height: 240px; border-radius: 8px; object-fit: cover;" />
           </div>
-        </div>
-      </div>
+</div>
+</div>
 </body>
 </html>
