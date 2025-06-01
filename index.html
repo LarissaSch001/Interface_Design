@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Globe.gl Tag-Nacht Demo</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: sans-serif;
+        background-color: #000;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      .hero {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        z-index: 0;
+      }
+      #globeViz {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 0;
+      }
+      #time {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        color: lightblue;
+        font-family: monospace;
+        z-index: 1;
+      }
+      #quote {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        color: #ccc;
+        font-size: 1.2em;
+        max-width: 40%;
+        text-align: right;
+        font-style: italic;
+        z-index: 1;
+      }
+      .content {
+        background: url('//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png') no-repeat center center fixed; background-size: cover;
+        color: white;
+        padding: 4em 2em;
+        display: flex;
+        flex-direction: column;
+        gap: 4em;
+      }
+      .section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: center;
+      }
+      .placeholder {
+        background: #555;
+        width: 300px;
+        height: 200px;
+      }
+      .text-block {
+        max-width: 1000px;
+        line-height: 2.0;
+      }
+      canvas { display: block !important; position: relative !important; z-index: 0 !important; }
+</style>
+    <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://esm.sh/three",
+          "three/addons/": "https://esm.sh/three/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module">
+      import { TextureLoader, ShaderMaterial, Vector2 } from 'https://esm.sh/three';
+      import * as solar from 'https://esm.sh/solar-calculator';
+      const VELOCITY = 1;
+      const dayNightShader = {
+        vertexShader: `
+          varying vec3 vNormal;
+          varying vec2 vUv;
+          void main() {
+            vNormal = normalize(normalMatrix * normal);
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          #define PI 3.141592653589793
+          uniform sampler2D dayTexture;
+          uniform sampler2D nightTexture;
+          uniform vec2 sunPosition;
+          uniform vec2 globeRotation;
+          varying vec3 vNormal;
+          varying vec2 vUv;
+          float toRad(in float a) {
+            return a * PI / 180.0;
+          }
+          vec3 Polar2Cartesian(in vec2 c) {
+            float theta = toRad(90.0 - c.x);
+            float phi = toRad(90.0 - c.y);
+            return vec3(
+              sin(phi) * cos(theta),
+              cos(phi),
+              sin(phi) * sin(theta)
+            );
+          }
+          void main() {
+            float invLon = toRad(globeRotation.x);
+            float invLat = -toRad(globeRotation.y);
+            mat3 rotX = mat3(
+              1, 0, 0,
+              0, cos(invLat), -sin(invLat),
+              0, sin(invLat), cos(invLat)
+            );
+            mat3 rotY = mat3(
+              cos(invLon), 0, sin(invLon),
+              0, 1, 0,
+              -sin(invLon), 0, cos(invLon)
+            );
+            vec3 rotatedSunDirection = rotX * rotY * Polar2Cartesian(sunPosition);
+            float intensity = dot(normalize(vNormal), normalize(rotatedSunDirection));
+            vec4 dayColor = texture2D(dayTexture, vUv);
+            vec4 nightColor = texture2D(nightTexture, vUv);
+            float blendFactor = smoothstep(-0.1, 0.1, intensity);
+            gl_FragColor = mix(nightColor, dayColor, blendFactor);
+          }
+        `
+      };
+      const sunPosAt = dt => {
+        const day = new Date(+dt).setUTCHours(0, 0, 0, 0);
+        const t = solar.century(dt);
+        const longitude = (day - dt) / 864e5 * 360 - 180;
+        return [longitude - solar.equationOfTime(t) / 4, solar.declination(t)];
+      };
+      let dt = +new Date();
+      const timeEl = document.getElementById('time');
+      const world = new Globe(document.getElementById('globeViz'));
+      Promise.all([
+        new TextureLoader().loadAsync('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg'),
+        new TextureLoader().loadAsync('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg')
+      ]).then(([dayTexture, nightTexture]) => {
+        const material = new ShaderMaterial({
+          uniforms: {
+            dayTexture: { value: dayTexture },
+            nightTexture: { value: nightTexture },
+            sunPosition: { value: new Vector2() },
+            globeRotation: { value: new Vector2() }
+          },
+          vertexShader: dayNightShader.vertexShader,
+          fragmentShader: dayNightShader.fragmentShader
+        });
+        world.globeMaterial(material)
+          .backgroundImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png')
+          .onZoom(({ lng, lat }) => material.uniforms.globeRotation.value.set(lng, lat));
+        requestAnimationFrame(() => (function animate() {
+          dt += VELOCITY * 60 * 1000;
+          timeEl.textContent = new Date(dt).toLocaleString();
+          material.uniforms.sunPosition.value.set(...sunPosAt(dt));
+          requestAnimationFrame(animate);
+        })());
+      });
+    </script>
+  </head>
+  <body>
+    <div class="hero" style="position: relative; overflow: hidden;">
+      <div id="globeViz" style="position: relative; z-index: 0;"></div>
+      <div id="time"></div>
+    </div>
+    <h1 style="text-align: center; color: white; font-size: 4.5em; margin-top: 2em;">
+      „The world is turning to fast.“
+    </h1>
+    <div class="content">
+      <div class="section">
+        <div class="text-block">
+          <h2>Vision</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et libero nec nulla feugiat luctus.
+          </p>
+        </div>
+        <!--Tauche ein abschnitt-->
+        <div class="section" style="flex-direction: column; align-items: flex-start;">
+          <div class="text-block">
+            <h2 style="font-size: 2em; color: white;">TAUCHE EIN...</h2>
+          </div>
+          <div class="section" style="gap: 4em; align-items: stretch;">
+          <div>
+            <img src="Bilder/3.png" alt="Großes Bild" style="width: 450px; height: 480px; border-radius: 8px; object-fit: cover;" />
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 0;">
+            <img src="Bilder/1.png" alt="Bild 1" style="width: 300px; height: 240px; border-radius: 8px; object-fit: cover;" />
+            <img src="Bilder/2.png" alt="Bild 2" style="width: 300px; height: 240px; border-radius: 8px; object-fit: cover;" />
+          </div>
+        </div>
+      </div>
+</body>
+</html>
