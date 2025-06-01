@@ -17,9 +17,8 @@
       .hero {
         width: 100%;
         height: 100vh;
-        position: sticky;
-        top: 0;
-        overflow: hidden;
+        position: relative;
+        z-index: 0;
       }
       #globeViz {
         width: 100%;
@@ -68,6 +67,27 @@
       .text-block {
         max-width: 1000px;
         line-height: 2.0;
+      }
+      .milestones h3 {
+        margin-bottom: 20px;
+      }
+      .milestone-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .milestone-row.reverse {
+        flex-direction: row-reverse;
+      }
+      .milestone-row .img-placeholder {
+        background: #ccc;
+        flex: 1;
+        height: 120px;
+        min-width: 150px;
+      }
+      .milestone-row .text {
+        flex: 2;
       }
       canvas { display: block !important; position: relative !important; z-index: 0 !important; }
 </style>
@@ -172,7 +192,7 @@
     </script>
   </head>
   <body>
-    <div class="hero">
+    <div class="hero" style="position: relative; overflow: hidden;">
       <div id="globeViz" style="position: relative; z-index: 0;"></div>
       <div id="time"></div>
     </div>
@@ -202,7 +222,32 @@
             <img src="Bilder/1.png" alt="Bild 1" style="width: 300px; height: 240px; border-radius: 8px; object-fit: cover;" />
             <img src="Bilder/2.png" alt="Bild 2" style="width: 300px; height: 240px; border-radius: 8px; object-fit: cover;" />
           </div>
-</div>
-</div>
+        </div>
+
+      </div>
+      <section class="milestones">
+        <h3>MEILENSTEINE</h3>
+        <div class="milestone-row">
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr...</p>
+          </div>
+          <div class="img-placeholder"></div>
+        </div>
+        <div class="milestone-row reverse">
+          <div class="img-placeholder"></div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr...</p>
+          </div>
+        </div>
+        <div class="milestone-row">
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr...</p>
+          </div>
+          <div class="img-placeholder"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+ 
 </body>
 </html>
