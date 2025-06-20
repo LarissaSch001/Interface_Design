@@ -1,0 +1,541 @@
+
+
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entschleunigung - Eine Reise zur inneren Ruhe</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#8A2BE2", secondary: "#00FFFF" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      }
+      .navbar {
+      backdrop-filter: blur(10px);
+      background-color: rgba(18, 18, 18, 0.7);
+      }
+      .hero-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      }
+      .particle {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+      }
+      @keyframes float {
+      0%, 100% {
+      transform: translateY(0) translateX(0);
+      }
+      25% {
+      transform: translateY(-20px) translateX(10px);
+      }
+      50% {
+      transform: translateY(-10px) translateX(20px);
+      }
+      75% {
+      transform: translateY(-30px) translateX(-10px);
+      }
+      }
+      .glow-effect {
+      transition: all 0.3s ease;
+      }
+      .glow-effect:hover {
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+      }
+      .quote-box {
+      position: relative;
+      }
+      .quote-box::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: -10px;
+      font-size: 80px;
+      font-family: 'Georgia', serif;
+      color: rgba(138, 43, 226, 0.2);
+      line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+    class="navbar fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4"
+  >
+    <a href="indexInterface.html">
+      <img
+        src="https://raw.githubusercontent.com/LarissaSch001/Interface_Design/main/LogoSaturn.png"
+        alt="Logo Saturn"
+        style="width: 55px; height: 40px; transform-origin: top left; margin-top: 10px;"
+      />
+    </a>
+
+      <a
+        href="indexInterface.html"
+        data-readdy="true"
+        class="flex items-center gap-2 text-white hover:text-secondary transition-colors"
+      >
+        <div class="w-6 h-6 flex items-center justify-center">
+          <i class="ri-arrow-left-line"></i>
+        </div>
+        <span>Zurück zur Übersicht</span>
+      </a>
+    </nav>
+    <!-- Hero Section -->
+    <section
+      class="relative min-h-screen pt-20 flex items-center overflow-hidden"
+    >
+      <div class="hero-particles" id="particles"></div>
+      <div
+        style="background-image: url('https://readdy.ai/api/search-image?query=Breathtaking%20panoramic%20view%20of%20Europe%20showing%20diverse%20landscapes%2C%20from%20snowy%20Alps%20mountains%20to%20Mediterranean%20coastlines%2C%20historic%20cities%20with%20iconic%20architecture%2C%20and%20lush%20green%20countryside%2C%20dramatic%20lighting%2C%20cinematic%20wide%20shot&width=1920&height=1080&seq=1&orientation=landscape'); background-size: cover; background-position: center;"
+        class="absolute inset-0 opacity-50"
+      ></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-[#121212] to-transparent"
+      ></div>
+      <div class="container mx-auto px-8 relative z-10">
+        <div class="max-w-3xl">
+          <h1 class="text-6xl font-bold mb-6 text-white">
+            Willkommen in <span class="text-secondary">Australien</span>
+          </h1>
+          <p class="text-xl mb-8 text-gray-200">
+            In einer Welt, die sich immer schneller dreht, laden wir dich ein, innezuhalten und die raue Schönheit Australiens zu entdecken.
+            Spüre den Wind in der endlosen Weite des Outbacks, lausche dem Rhythmus der Wellen an einsamen Küsten und begegne der Natur in ihrer ursprünglichsten Form.
+            Australien erinnert daran, wie befreiend Stille und Weite sein können.
+          </p>
+          <button
+          onclick="window.location.href='Australien.mp4'"class="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-button text-lg font-semibold flex items-center gap-2 whitespace-nowrap cursor-pointer"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-leaf-line"></i>
+            </div>
+            <span>Zur Ruhe kommen</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cultural Information -->
+    <section id="kulinarik" class="py-20 bg-[#121212]">
+      <div class="container mx-auto px-8">
+        <h2 class="text-4xl font-bold mb-2 text-white">
+          Kulturelle <span class="text-primary">Vielfalt</span>
+        </h2>
+        <p class="text-gray-300 mb-12">
+          Entdecken Sie die reiche kulturelle Vielfalt Australiens in all ihren
+          Facetten
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Traditionen -->
+          <div class="bg-[#1a1a1a] rounded-lg overflow-hidden glow-effect">
+            <div class="h-48 relative">
+              <img
+                src="AustralienTradition.png"
+                alt="Europäische Traditionen"
+                class="h-full w-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-ancient-gate-line"></i>
+                </div>
+                <span>Traditionen</span>
+              </h3>
+              <p class="text-gray-400 mb-4">
+                Die Kulturen der Aborigines tragen Jahrtausende altes Wissen in sich – weitergegeben in Geschichten, Zeichen und Tänzen, tief verbunden mit dem Land.
+              </p>
+              <button
+                class="text-primary hover:text-secondary transition-colors flex items-center gap-1 text-sm font-medium whitespace-nowrap cursor-pointer"
+              >
+                <span>Mehr erfahren</span>
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-arrow-right-line"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+          <!-- Kunst -->
+          <div class="bg-[#1a1a1a] rounded-lg overflow-hidden glow-effect">
+            <div class="h-48 relative">
+              <img
+                src="AustralienKunst.png"
+                alt="Europäische Kunst"
+                class="h-full w-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-palette-line"></i>
+                </div>
+                <span>Kunst</span>
+              </h3>
+              <p class="text-gray-400 mb-4">
+                Australiens Kunst ist erdig, symbolisch und oft spirituell – von Punktmalerei bis zeitgenössischer Ausdruck entsteht hier ein einzigartiger Dialog zwischen Alt und Neu.
+              </p>
+              <button
+                class="text-primary hover:text-secondary transition-colors flex items-center gap-1 text-sm font-medium whitespace-nowrap cursor-pointer"
+              >
+                <span>Mehr erfahren</span>
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-arrow-right-line"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+          <!-- Musik -->
+          <div class="bg-[#1a1a1a] rounded-lg overflow-hidden glow-effect">
+            <div class="h-48 relative">
+              <img
+                src="AustralienMusik.png"
+                alt="Europäische Musik"
+                class="h-full w-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-music-2-line"></i>
+                </div>
+                <span>Musik</span>
+              </h3>
+              <p class="text-gray-400 mb-4">
+                Ob Didgeridoo, Busker oder Festivalbühne – Musik in Australien ist roh, rhythmisch und oft direkt mit der Natur und Identität verbunden.
+              </p>
+              <button
+                class="text-primary hover:text-secondary transition-colors flex items-center gap-1 text-sm font-medium whitespace-nowrap cursor-pointer"
+              >
+                <span>Mehr erfahren</span>
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-arrow-right-line"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+          <!-- Kulinarik -->
+          <div class="bg-[#1a1a1a] rounded-lg overflow-hidden glow-effect">
+            <div class="h-48 relative">
+              <img
+                src="AustralienKulinarik.png"
+                alt="Europäische Kulinarik"
+                class="h-full w-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-restaurant-line"></i>
+                </div>
+                <span>Kulinarik</span>
+              </h3>
+              <p class="text-gray-400 mb-4">
+                Von Bush Food über frische Meeresfrüchte bis zu multikulturellen Einflüssen: Australiens Küche vereint Tradition und Moderne mit überraschender Vielfalt.
+              </p>
+              <button
+                class="text-primary hover:text-secondary transition-colors flex items-center gap-1 text-sm font-medium whitespace-nowrap cursor-pointer"
+              >
+                <span>Mehr erfahren</span>
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-arrow-right-line"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fun Facts & Quote Section -->
+    <section id="funfacts" class="py-20 bg-[#151515]">
+      <div class="container mx-auto px-8">
+        <h2 class="text-4xl font-bold mb-2 text-white">
+          Faszinierende <span class="text-primary">Fakten</span>
+        </h2>
+        <p class="text-gray-300 mb-12">
+          Entdecken Sie überraschende Einblicke in die australische Vielfalt
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <!-- Fun Facts -->
+          <div class="bg-[#1a1a1a] rounded-lg p-8">
+            <h3 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+              <div
+                class="w-8 h-8 flex items-center justify-center text-primary"
+              >
+                <i class="ri-lightbulb-line"></i>
+              </div>
+              <span>Wusstest du schon?</span>
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-secondary mt-1"
+                >
+                  <i class="ri-checkbox-circle-line"></i>
+                </div>
+                <p class="text-gray-300">
+                    Mehr Kängurus als Menschen
+                    In Australien leben rund 2-mal so viele Kängurus wie Menschen – also etwa 50 Millionen Hüpfer auf 25 Millionen Australier*innen.
+                </p>
+              </li>
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-secondary mt-1"
+                >
+                  <i class="ri-checkbox-circle-line"></i>
+                </div>
+                <p class="text-gray-300">
+                    Die größte Einwanderergesellschaft der Welt
+                    Fast jeder dritte Australierin wurde im Ausland geboren – das macht Australien zu einem der vielfältigsten Länder der Welt.
+                </p>
+              </li>
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-secondary mt-1"
+                >
+                  <i class="ri-checkbox-circle-line"></i>
+                </div>
+                <p class="text-gray-300">
+                    Wilde Kamele – made in Australia
+                    Australien hat die größte Population an freilebenden Dromedaren weltweit. Sie wurden einst für Wüstentransporte importiert – heute ziehen sie frei durchs Outback.
+                </p>
+              </li>
+              <li class="flex items-start gap-3">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-secondary mt-1"
+                >
+                  <i class="ri-checkbox-circle-line"></i>
+                </div>
+                <p class="text-gray-300">
+                    Ein Strand für jeden Tag
+                    Australien hat über 10.000 Strände – theoretisch könntest du über 27 Jahre lang jeden Tag an einen anderen gehen.
+                </p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Quote -->
+          <div class="bg-[#1a1a1a] rounded-lg p-8 flex items-center">
+            <div class="quote-box pl-6">
+              <p class="text-2xl text-gray-200 italic mb-6">
+                "Australien ist kein Ort. Es ist ein Gefühl."
+              </p>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-12 h-12 bg-primary rounded-full flex items-center justify-center"
+                >
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-white"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-semibold">Jessica Watson</p>
+                  <p class="text-sm text-gray-400">
+                    Australische Seglerin und jüngste Weltumseglerin ohne Zwischenstopp
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button onclick="window.location.href='Australien.mp4'"
+            class="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-button text-lg font-semibold inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-compass-3-line"></i>
+            </div>
+            <span>Australien entdecken</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+ <footer class="bg-black py-12">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div>
+        
+        <p class="text-gray-400 mb-6">
+          <br>
+          <br>
+          Ein Studienprojekt der Hochschule Furtwangen im Rahmen des Studiengangs Online Medien B.Sc. im 5. Semester, entstanden im Kurs Interface Design. Ziel ist es, einen Raum der Entschleunigung zu schaffen.
+          <br>
+          <br>
+        </p>
+        <div class="flex items-center">
+          <img
+            src="https://github.com/LarissaSch001/Interface_Design/raw/main/hfuLogoTransparent.png"
+            alt="HFU Logo"
+            class="h-12"
+          />
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-white mb-6">Schnellzugriff</h3>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="#kulinarik"
+              class="text-gray-400 hover:text-secondary transition-colors"
+              >Kulturelle Vielfalt</a
+            >
+          </li>
+          <li>
+            <a
+              href="#funfacts"
+              class="text-gray-400 hover:text-secondary transition-colors"
+              >Funfacts</a
+            >
+          </li>
+          
+         
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-white mb-6">Kontakt</h3>
+        <div class="space-y-6">
+          <div>
+            <p class="text-gray-400 mb-3">Larissa Schätzle</p>
+            <div class="flex space-x-4">
+              <a
+                href="https://www.linkedin.com/in/larissa-sch%C3%A4tzle-815aa4284?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                target="_blank"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="ri-linkedin-fill text-xl"></i>
+              </a>
+              <a
+                href="mailto:larissaschaetzle@outlook.de"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="ri-mail-fill text-xl"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <p class="text-gray-400 mb-3">Michael Wiblishauser</p>
+            <div class="flex space-x-4">
+              <a
+                href="hhttps://www.linkedin.com/in/michael-wiblishauser-07157727a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                target="_blank"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="ri-linkedin-fill text-xl"></i>
+              </a>
+              <a
+                href="mailto:m.wiblishauser@gmx.de"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="ri-mail-fill text-xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center"
+    >
+      <p class="text-gray-500 mb-4 md:mb-0">
+        © 2025 3D-Erlebniswelten. Alle Rechte vorbehalten.
+      </p>
+      <div class="flex space-x-6">
+        <a
+          href="#"
+          class="text-gray-500 hover:text-secondary transition-colors"
+          >Datenschutz</a
+        >
+        <a
+          href="#"
+          class="text-gray-500 hover:text-secondary transition-colors"
+          >Impressum</a
+        >
+      </div>
+    </div>
+  </div>
+</footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Create particles for hero section
+        const particlesContainer = document.getElementById("particles");
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("particle");
+          // Random size
+          const size = Math.random() * 6 + 2;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          // Random position
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.top = `${Math.random() * 100}%`;
+          // Random animation delay
+          particle.style.animationDelay = `${Math.random() * 15}s`;
+          particlesContainer.appendChild(particle);
+        }
+      });
+    </script>
+  </body>
+</html>
+
